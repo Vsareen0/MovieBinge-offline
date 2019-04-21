@@ -8,5 +8,8 @@
 </head>
 <body>
 Hello World Test
+<c:forEach items="${v}" var="t">
+	${t.id} &nbsp;&nbsp; ${t.name} <br>
+</c:forEach>
 </body>
 </html>
