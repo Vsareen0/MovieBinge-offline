@@ -4,12 +4,15 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<%@ page isELIgnored="false" %>
 <title>Insert title here</title>
 </head>
 <body>
 Hello World Test
-<c:forEach items="${v}" var="t">
+<!-- <c:forEach items="${v}" var="t">
 	${t.id} &nbsp;&nbsp; ${t.name} <br>
 </c:forEach>
+ -->
+ ${test}
 </body>
 </html>

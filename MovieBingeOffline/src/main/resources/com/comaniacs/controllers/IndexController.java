@@ -14,12 +14,17 @@ import com.comaniacs.models.Test;
 @Controller
 public class IndexController {
 
+	/*	private final String now_playing="now playing";
+		private final String upcoming="upcoming";
+	 */
+	
+	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public String index(ModelMap model) throws InterruptedException {
-		TestHelper th = new TestHelper();
-		List<Test> test= th.getName();
-		System.out.println(test.size());
-		model.addAttribute("v",test);
+//		TestHelper th = new TestHelper();
+//		List<Test> test= th.getName();
+//		System.out.println(test.size());
+//		model.addAttribute("v",test);
 		model.addAttribute("hello","Vinamra");
 		return "index";
 	}
@@ -31,5 +36,25 @@ public class IndexController {
 		System.out.println(test.size());
 		model.addAttribute("v",test);
 		return "test";
+	}
+	
+	@RequestMapping(value= {"/admin"},method=RequestMethod.GET)
+	public String admin() {
+		return "admin";
+	}
+	
+	@RequestMapping(value="/dashboard")
+	public String dashboard() {
+		return "dashboard";
+	}
+
+	@RequestMapping(value="/purchases")
+	public String purchases() {
+		return "purchases";
+	}
+
+	@RequestMapping(value="/addNewMovie")
+	public String addNewMovie() {
+		return "addNewMovie";
 	}
 }

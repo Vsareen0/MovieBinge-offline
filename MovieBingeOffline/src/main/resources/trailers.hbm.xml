@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping> 
+<class name="com.comaniacs.models.Trailers" table="TRAILERS">
+	<id name="trailerId" type="int">
+		<column name="TRAILER_ID" length="4"></column>
+		<generator class="assigned"></generator>
+	</id>
+	<property name="videoKey" type="string">
+		<column name="VIDEO_KEY" length="50"></column>
+	</property>
+</class> 
+</hibernate-mapping>

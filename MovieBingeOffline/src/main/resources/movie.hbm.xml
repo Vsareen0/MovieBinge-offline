@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>  
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping>  
+<class name="com.comaniacs.models.Movie" table="MOVIE">  
+     <id name="movieId" type="int">
+     	<column name="MOVIE_ID" length="4" />
+     	<generator class="assigned"/>
+     </id>
+     <property name="title" type="string">
+     	<column name="TITLE" length="150"></column>
+     </property>  
+     <property name="original_title" type="string">
+     	<column name="ORIGINAL_TITLE" length="150"></column>
+     </property>  
+     <property name="overview" type="string">
+     	<column name="OVERVIEW" length="750"></column>
+     </property>  
+     <property name="poster_path" type="string">
+     	<column name="POSTER_PATH" length="50"></column>
+     </property>
+     <property name="backdrop_path" type="string">
+     	<column name="BACKDROP_PATH" length="50"></column>
+     </property>  
+     <property name="release_date" type="string">
+     	<column name="RELEASE_DATE" length="20"></column>
+     </property>
+     <property name="vote_average" type="double">
+     	<column name="VOTE_AVERAGE" length="50"></column>
+     </property>
+     <property name="category" type="string">
+     	<column name="CATEGORY" length="50"></column>
+     </property>
+   	<set name="trailers" table="TRAILERS" 
+		inverse="true" lazy="true" fetch="select" cascade="all">
+          <key>
+              <column name="MOVIE_ID" not-null="true" />
+          </key>
+          <one-to-many class="com.comaniacs.models.Trailers" />
+      </set>
+      <set name="movieDetails" table="MOVIEDETAILS" 
+		inverse="true" lazy="true" fetch="select" cascade="all">
+          <key>
+              <column name="MOVIE_ID" not-null="true" />
+          </key>
+          <one-to-many class="com.comaniacs.models.MovieDetails" />
+      </set>
+</class>    
+</hibernate-mapping>  
