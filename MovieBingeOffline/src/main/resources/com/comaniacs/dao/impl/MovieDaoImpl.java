@@ -21,6 +21,7 @@ public class MovieDaoImpl implements MovieDao{
        	session.save(movie);
        	// Commit the transaction
         session.getTransaction().commit();
+
 	}
 
 
@@ -106,16 +107,30 @@ public class MovieDaoImpl implements MovieDao{
 		return results;
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
-	public void showNowPlaying(String now_playing) {
-		// TODO Auto-generated method stub
-		
+	public List<?> showNowPlaying(String category) {
+		List<?> results = null;
+		try {
+			session = HibernateUtil.getSessionFactory().openSession();
+	        session.beginTransaction();
+	        
+			String movieHQL = "SELECT * FROM MOVIE where category='"+category+"';";
+			Query query = session.createSQLQuery(movieHQL).addEntity(Movie.class);
+			results = query.list();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			session.getTransaction().rollback();
+		}
+		finally{
+			session.close();
+		}
+		return results;
 	}
 	
 	@Override
-	public void showUpcoming(String upcoming) {
-		// TODO Auto-generated method stub
-		
+	public List<?> showUpcoming(String upcoming) {
+		return null;
 	}
 	
 	@SuppressWarnings("rawtypes")

@@ -14,9 +14,9 @@ public interface MovieDao {
 	
 	public List<?> findMovieById(int movieId);
 	
-	public void showNowPlaying(String now_playing);
+	public List<?> showNowPlaying(String now_playing);
 	
-	public void showUpcoming(String upcoming);
+	public List<?> showUpcoming(String upcoming);
 	
 	public int getTotalPages();
 	

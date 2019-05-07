@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping>  
+<class name="com.comaniacs.models.User" table="USER">  
+     <id name="UserId" type="int">
+     	<column name="USER_ID" length="100" />
+     	<generator class="assigned" />
+     </id>
+     <property name="Username" type="string">
+     	<column name="USERNAME" length="40"></column>
+     </property>  
+     <property name="Email" type="string">
+     	<column name="EMAIL" length="75"></column>
+     </property>  
+     <property name="Password" type="string">
+     	<column name="PASSWORD" length="15"></column>
+     </property>  
+</class>
+</hibernate-mapping>

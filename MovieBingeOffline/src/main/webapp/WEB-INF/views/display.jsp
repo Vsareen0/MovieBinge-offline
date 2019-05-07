@@ -103,7 +103,7 @@ ${trailers.videoKey}
 				<h4 class="modal-title">Success</h4>	
 			</div>
 			<div class="modal-body">
-				<p class="text-center">You have successfully inserted a new movie into the database.</p>
+				<p class="text-center">You have successfully inserted into the database.</p>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-success btn-block" data-dismiss="modal">OK</button>

@@ -13,12 +13,28 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+<%
+  response.addHeader("Pragma", "no-cache");
+  response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  response.addHeader("Cache-Control", "pre-check=0, post-check=0");
+  response.setDateHeader("Expires", 0);
+
+	if(session.getAttribute("loggedInAdmin")==null){
+		response.sendRedirect("/MovieBingeOffline/adminSignin");
+ 	}
+%>
 
 <!-- A grey horizontal navbar that becomes vertical on small screens -->
 <nav class="navbar navbar-expand-sm navbar-dark">
-
-  <a class="navbar-brand" href="#"><span class="logo">movieBinge Admin</span></a>
-
+	<div class="container-fluid">
+	<div class="navbar-header">
+	  <a class="navbar-brand" href="#"><span class="logo">movieBinge Admin</span></a>		
+	</div>
+	<ul class="nav navbar-nav navbar-right">
+		<li><a href="/MovieBingeOffline/admin/logout"><span class="glyphicon glyphicon-user"></span>Logout</a></li>
+	</ul>	
+   </div>
+  
   <!-- Toggle/collapse Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
     <span class="navbar-toggler-icon"></span>
