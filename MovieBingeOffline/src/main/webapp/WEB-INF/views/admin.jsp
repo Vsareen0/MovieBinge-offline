@@ -45,7 +45,7 @@
 <!-- Container -->
 <div class="container-fluid">
   <div class="row">
-	<div class="col-sm-2" id="sidebar">
+	<div class="col-sm-3" id="sidebar">
 	  <ul class="sidebar">
 	  	<li><a href="/MovieBingeOffline/dashboard" target="target_admin"><i class="fa fa-tachometer" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;Dashboard</a></li>
 	  	<li><a href="/MovieBingeOffline/purchases" target="target_admin"><i class="fa fa-credit-card-alt"></i>&nbsp;&nbsp;&nbsp;&nbsp;Purchases</a></li>
@@ -56,6 +56,11 @@
 	  		<li><a href="/MovieBingeOffline/addNewMovie" target="target_admin">
 	  		  <i class="fa fa-plus" aria-hidden="true"></i>
 	  		  &nbsp;&nbsp;Add New
+	  		</a>
+	  		</li>
+	  		<li><a href="/MovieBingeOffline/addShowTimmings" target="target_admin">
+	  		  <i class="fa fa-clock-o" aria-hidden="true"></i>
+	  		  &nbsp;&nbsp;Add Show Timmings
 	  		</a>
 	  		</li>
 	  		<li><a href="/MovieBingeOffline/updateMovies" target="target_admin">
@@ -82,7 +87,7 @@
 		</ul>
 	  </ul>
 	</div>
-	<div class="col-sm-10" id="pane">
+	<div class="col-sm-9" id="pane">
 		<iframe name="target_admin" src="/MovieBingeOffline/showAllMovies"></iframe>
 	</div>
   </div>

@@ -12,9 +12,31 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+ 	<style>
+ 		.alert {
+		position: fixed;
+		bottom: 10px;
+		background-color: #f44336;
+		color: white;
+		}
+		
+		.closebtn {
+		  margin-left: 15px;
+		  color: white;
+		  font-weight: bold;
+		  float: right;
+		  font-size: 22px;
+		  line-height: 20px;
+		  cursor: pointer;
+		  transition: 0.3s;
+		}
+		
+		.closebtn:hover {
+		  color: black;
+		}
+ 	</style>
 </head>
 <body>
-
 <!-- First container for movies -->
 <div class="container-fluid bg-grad">
 	
@@ -59,8 +81,8 @@
 		    <c:choose>
 		    	<c:when test="${checkLogin}">
 	      		<ul class="nav navbar-nav navbar-right">
-		        	<li class="nav-item"><a href="#" class="cred"><i class="fa fa-user nav-icons" aria-hidden="true"></i>&nbsp;Welcome, ${user}</a></li>
-		        	<li class="nav-item"><a href="/MovieBingeOffline/user/logout" class="cred"><i class="fa fa-sign-out nav-icons" aria-hidden="true"></i>&nbsp;Logout</a></li>    
+		        	<li class="nav-item"><a href="#" class="cred"><i class="fa fa-user nav-icons" aria-hidden="true"></i>&nbsp;Welcome, ${user.username}</a></li>
+		        	<li class="nav-item"><a onclick="$.removeCookie('JSESSIONID', { path: '/' });" href="/MovieBingeOffline/user/logout" class="cred"><i class="fa fa-sign-out nav-icons" aria-hidden="true"></i>&nbsp;Logout</a></li>    
 		      	</ul>	
 	      		</c:when>      		
 	      		<c:otherwise>
@@ -74,7 +96,7 @@
 	</div>
 </nav>
 <div class="row" id="addMoviesContent">
-<c:set scope="session" var="counter" value="${7}"/>
+<c:set scope="session" var="counter" value="${0}"/>
 <c:forEach items="${popular_movies}" var="movie" begin="${counter}" end="${counter}">
 	<div class="col-sm-5 movie-box-2">
 		<h4>&#x2728;Currently running in cinemas, <strong><i>Hurry Book Now !</i></strong></h4>
@@ -83,7 +105,7 @@
 		<p>${movie.overview}</p>
 		<br>
 		<span>
-			<button class="btn-grad">Book Now</button>
+			<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}">Book Now</a>
 			<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 		</span>
 		
@@ -104,9 +126,9 @@
 	<div class="col-sm-5 nav-container">
 		<div id="btns-mn">
 			<center>
-				<button class="btn" id="btn-left"><span>&#10092;</span></button>
-				<button class="btn" id="btn-right"><span>&#10093;</span></button>
-			</center>
+				<button class="btn" id="btn-left" onclick='checkId(<c:out value="${counter-1}" />);'><span>&#10092;</span></button>
+				<button class="btn" id="btn-right" onclick='checkId(<c:out value="${counter+1}" />);'><span>&#10093;</span></button>
+			</center> 
 		</div>
 	</div>
 	<div class="col-sm-7 movies-navigator">
@@ -230,6 +252,7 @@
 
 <div class="container-fluid news" style="height: 450px">
 
+
 </div>
 
 <footer id="footer">
@@ -264,11 +287,30 @@
 </table>
 </center>
 </footer>
+<c:if test="${bookingError}">
+	<div class="alert">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+	   Please <strong>login/signup</strong> in order to book.
+	</div>
+</c:if>
 <script>
+function checkId(id){
+	console.log(id+1);
+	if(id>4){
+		addContent(String("0"));
+	} else if(id<=-1){
+		addContent(String("3"));
+	}else{
+		addContent(String(id));	
+	}
+}
+
 function addContent(id){
+	console.log("Id: "+(id));
 	if(id==="0"){
 		$("#addMoviesContent").html(`
-				<c:forEach items="${popular_movies}" var="movie" begin="0" end="0">
+				<c:set scope="session" var="counter" value="${0}"/>
+				<c:forEach items="${popular_movies}" var="movie" begin="${counter}" end="${counter}">
 					<div class="col-sm-5 movie-box-2">
 						<h4>&#x2728;Currently running in cinemas, <strong><i>Hurry Book Now !</i></strong></h4>
 						<h2>${movie.original_title}</h2>
@@ -276,7 +318,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -294,7 +336,8 @@ function addContent(id){
 			`).fadeIn();
 	} else if(id==="1"){
 		$("#addMoviesContent").html(`
-				<c:forEach items="${popular_movies}" var="movie" begin="1" end="1">
+				<c:set scope="session" var="counter" value="${1}"/>
+				<c:forEach items="${popular_movies}" var="movie" begin="${counter}" end="${counter}">
 					<div class="col-sm-5 movie-box-2">
 						<h4>&#x2728;Currently running in cinemas, <strong><i>Hurry Book Now !</i></strong></h4>
 						<h2>${movie.original_title}</h2>
@@ -302,7 +345,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -320,7 +363,8 @@ function addContent(id){
 			`).fadeIn();
 	}else if(id==="2"){
 		$("#addMoviesContent").html(`
-				<c:forEach items="${popular_movies}" var="movie" begin="2" end="2">
+				<c:set scope="session" var="counter" value="${2}"/>
+				<c:forEach items="${popular_movies}" var="movie" begin="${counter}" end="${counter}">
 					<div class="col-sm-5 movie-box-2">
 						<h4>&#x2728;Currently running in cinemas, <strong><i>Hurry Book Now !</i></strong></h4>
 						<h2>${movie.original_title}</h2>
@@ -328,7 +372,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -346,7 +390,8 @@ function addContent(id){
 			`).fadeIn();
 	}else if(id==="3"){
 		$("#addMoviesContent").html(`
-				<c:forEach items="${popular_movies}" var="movie" begin="3" end="3">
+				<c:set scope="session" var="counter" value="${3}"/>
+				<c:forEach items="${popular_movies}" var="movie" begin="${counter}" end="${counter}">
 					<div class="col-sm-5 movie-box-2">
 						<h4>&#x2728;Currently running in cinemas, <strong><i>Hurry Book Now !</i></strong></h4>
 						<h2>${movie.original_title}</h2>
@@ -354,7 +399,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						

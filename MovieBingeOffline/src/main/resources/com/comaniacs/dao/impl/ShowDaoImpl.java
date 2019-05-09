@@ -6,35 +6,43 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import com.comaniacs.configurations.HibernateUtil;
-import com.comaniacs.dao.UserDao;
-import com.comaniacs.models.User;
+import com.comaniacs.dao.ShowDao;
+import com.comaniacs.models.Movie;
+import com.comaniacs.models.Show;
 
-public class UserDaoImpl implements UserDao{
+public class ShowDaoImpl implements ShowDao{
 	Session session;
 	
 	@Override
-	public void addNewUser(User user) {
+	public boolean checkIfTimmingsExist(Show show) {
+		
+		return false;
+	}
+
+	@Override
+	public void addShowTimmings(Show show) {
 		session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
-        //Save the user in database
-       	session.save(user);
+        //Save the show in database
+       	session.save(show);
        	// Commit the transaction
         session.getTransaction().commit();
 	}
 
 	@SuppressWarnings("rawtypes")
-	public List<?> checkCredentails(String name, String password) {
+	public List<?> getShowTimmings(int movieId) {
 		session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
-		String userHQL = "SELECT * FROM USER where USERNAME='"+name+"' AND PASSWORD='"+password+"';";
-		Query query = session.createSQLQuery(userHQL).addEntity(User.class);
+		String movieHQL = "SELECT * FROM SHOWS where movie_id="+movieId+";";
+		Query query = session.createSQLQuery(movieHQL).addEntity(Show.class);
 		List results = query.list();
 		
 		session.close();
 		
 		return results;
 	}
+	
 
 }

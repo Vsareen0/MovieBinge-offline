@@ -31,15 +31,15 @@ public class FormController {
 	@RequestMapping(value="/processUserLogin",method=RequestMethod.POST)
 	public String processUserLogin(@ModelAttribute("admin") Login user, HttpSession session, ModelMap model) {
 		UserDaoImpl udi =new UserDaoImpl();
-		boolean exists = udi.checkCredentails(user.getName(),user.getPassword());
-		if(exists) {
+		List<?> userResult = udi.checkCredentails(user.getName(),user.getPassword());
+		if(userResult.size() > 0) {
 			MovieDaoImpl mdi=new MovieDaoImpl();
 			List<?> popular_movies = mdi.showNowPlaying("Now Playing");
 			model.addAttribute("popular_movies",popular_movies);
 			model.addAttribute("checkLogin",true);
-			model.addAttribute("user",user.getName());
-			session.setAttribute("loggedInUser", user);
-			return "index";
+			session.setAttribute("loggedInUser", userResult.get(0));
+			model.addAttribute("user",userResult.get(0));
+			return "redirect:/";
 		}
 		model.addAttribute("error","Invalid Credentails !");
 		return "adminSignin";

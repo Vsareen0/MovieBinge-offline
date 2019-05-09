@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.comaniacs.dao.impl.MovieDaoImpl;
 import com.comaniacs.dao.impl.MovieDetailsDaoImpl;
+import com.comaniacs.dao.impl.ShowDaoImpl;
 import com.comaniacs.dao.impl.TrailersDaoImpl;
 import com.comaniacs.models.Movie;
 import com.comaniacs.models.MovieDetails;
+import com.comaniacs.models.Show;
 import com.comaniacs.models.Trailers;
 import com.comaniacs.utils.Functions;
 
@@ -53,6 +55,26 @@ public class MoviesController {
 		model.addAttribute("movie",movie);
 		model.addAttribute("trailers",trailers);
 		model.addAttribute("movieDetails",moviedetails);
+		 
+		return "display";
+		
+	}
+	
+	/*****************
+	 * Add Show Timmings to Database *
+	 * *****************/
+	@RequestMapping(value="/addShowTimmings",method=RequestMethod.POST)
+	public String addShowToDatabase(@ModelAttribute("showTimmings") Show show, Model model) {		
+		
+		// Pass the movie Object to Dao to add to database
+		 ShowDaoImpl sdi=new ShowDaoImpl();
+		 Random random = new Random();
+	     String id = String.format("%04d", random.nextInt(10000));
+         show.setShowId(Integer.parseInt(id));
+		 sdi.addShowTimmings(show);
+				
+		// Add to model the movie Object
+		model.addAttribute("show",show);
 		 
 		return "display";
 		

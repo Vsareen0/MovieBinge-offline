@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping>  
+<class name="com.comaniacs.models.Show" table="SHOWS">  
+     <id name="ShowId" type="int">
+     	<column name="SHOW_ID" length="4" />
+     	<generator class="assigned"/>
+     </id>
+     <property name="MovieId" type="int">
+     	<column name="MOVIE_ID" length="4"></column>
+     </property>  
+     <property name="SetTime" type="string">
+     	<column name="TIMMINGS" length="65"></column>
+     </property>  
+     <property name="Theatre_room_no" type="string">
+     	<column name="THEATRE_ROOM_NO" length="3"></column>
+     </property>  
+</class>
+</hibernate-mapping>
