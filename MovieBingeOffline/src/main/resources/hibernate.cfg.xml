@@ -30,5 +30,7 @@
       
       <mapping resource="show.hbm.xml"/>
       
+      <mapping resource="booking.hbm.xml"/>
+      
    </session-factory>
 </hibernate-configuration>

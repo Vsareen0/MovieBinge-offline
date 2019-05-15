@@ -20,6 +20,7 @@
 	    <form action="/MovieBingeOffline/processUserLogin" method="post">
 			<div class="avatar"><i class="material-icons">account_circle</i></div>
 	    	<h4 class="modal-title">Login to Your User Account</h4>
+	    	<h6 style="color:red;">${error}</h6>
 	        <div class="form-group">
 	            <input type="text" class="form-control" name="name" placeholder="Username" required="required">
 	        </div>

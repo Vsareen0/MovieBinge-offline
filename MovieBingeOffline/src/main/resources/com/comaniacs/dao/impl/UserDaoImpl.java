@@ -14,6 +14,7 @@ public class UserDaoImpl implements UserDao{
 	
 	@Override
 	public void addNewUser(User user) {
+		try {
 		session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
         
@@ -21,6 +22,12 @@ public class UserDaoImpl implements UserDao{
        	session.save(user);
        	// Commit the transaction
         session.getTransaction().commit();
+        session.close();
+		}catch(Exception e) {
+			System.out.println(e.getMessage());
+			session.getTransaction().rollback();
+			session.close();
+		}
 	}
 
 	@SuppressWarnings("rawtypes")

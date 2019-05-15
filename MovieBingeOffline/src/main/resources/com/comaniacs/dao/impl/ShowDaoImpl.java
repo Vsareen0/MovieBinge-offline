@@ -7,6 +7,7 @@ import org.hibernate.query.Query;
 
 import com.comaniacs.configurations.HibernateUtil;
 import com.comaniacs.dao.ShowDao;
+import com.comaniacs.models.Booking;
 import com.comaniacs.models.Movie;
 import com.comaniacs.models.Show;
 
@@ -43,6 +44,5 @@ public class ShowDaoImpl implements ShowDao{
 		
 		return results;
 	}
-	
 
 }

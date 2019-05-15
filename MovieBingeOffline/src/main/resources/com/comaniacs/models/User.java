@@ -1,12 +1,7 @@
 package com.comaniacs.models;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
 public class User {
 	
-	@Id
-	@GeneratedValue
 	private int userId;
 	private String username;
 	private String email;

@@ -7,35 +7,41 @@
 	<%@ page isELIgnored="false" %>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" type="image/png" href="/resources/images/movie.png">
 	<link rel="stylesheet" href="<c:url value="/resources/css/index.css" />">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="<c:url value="/webjars/font-awesome/4.7.0/css/font-awesome.min.css" />">
 	<link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet">
- 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+ 	<link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.4.0/css/bootstrap.min.css"/> ">
  	<style>
  		.alert {
 		position: fixed;
 		bottom: 10px;
 		background-color: #f44336;
 		color: white;
-		}
-		
-		.closebtn {
-		  margin-left: 15px;
-		  color: white;
-		  font-weight: bold;
-		  float: right;
-		  font-size: 22px;
-		  line-height: 20px;
-		  cursor: pointer;
-		  transition: 0.3s;
-		}
-		
-		.closebtn:hover {
-		  color: black;
-		}
+	}
+	.success{
+		position: fixed;
+		padding: 10px;
+		bottom: 10px;
+		color: white;
+		background-color: #2fe064;
+		border-radius: 5px; 
+	}
+	.closebtn {
+	  margin-left: 15px;
+	  color: white;
+	  font-weight: bold;
+	  float: right;
+	  font-size: 22px;
+	  line-height: 20px;
+	  cursor: pointer;
+	  transition: 0.3s;
+	}
+	
+	.closebtn:hover {
+	  color: black;
+	}
  	</style>
-</head>
+ </head>
 <body>
 <!-- First container for movies -->
 <div class="container-fluid bg-grad">
@@ -59,8 +65,8 @@
 		
 	    <div class="collapse navbar-collapse" id="collapsibleNavbar">
 	      <ul class="nav navbar-nav">
-	        <li class="nav-item"><a href="#"><i class="fa fa-caret-square-o-right nav-icons" aria-hidden="true"></i>&nbsp;Now Playing</a></li>
-	        <li class="nav-item"><a href="#"><i class="fa fa-calendar nav-icons" aria-hidden="true"></i>&nbsp;Upcoming</a></li>
+	        <li class="nav-item"><a href="#now-Playing-Title"><i class="fa fa-caret-square-o-right nav-icons" aria-hidden="true"></i>&nbsp;Now Playing</a></li>
+	        <li class="nav-item"><a href="#upcoming-Title"><i class="fa fa-calendar nav-icons" aria-hidden="true"></i>&nbsp;Upcoming</a></li>
 	        <li class="nav-item"><a href="#"><i class="fa fa-map-marker nav-icons" aria-hidden="true"></i>&nbsp;Theaters</a></li>    
 	      </ul>
 	      <!-- <ul class="nav navbar-nav navbar-center">
@@ -114,7 +120,7 @@
 		<img src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}" class="poster-1">
 		<img src="http://image.tmdb.org/t/p/w500/${movie.poster_path}" class="poster-2" width="350">
 		<span class="beacon">
-		<div class="play-btn-1">
+		<div class="play-btn-1" onclick="playTrailer(${movie.movieId})">
 			<center><span>&#x1f3ac;</span></center>
 		</div>
 		</span>
@@ -293,6 +299,12 @@
 	   Please <strong>login/signup</strong> in order to book.
 	</div>
 </c:if>
+<c:if test="${userSuccess}">
+	<div class="success">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+	    <strong>BINGO !</strong> Go ahead & book your tickets.
+	</div>
+</c:if>
 <script>
 function checkId(id){
 	console.log(id+1);
@@ -327,7 +339,7 @@ function addContent(id){
 					<img src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}" class="poster-1">
 					<img src="http://image.tmdb.org/t/p/w500/${movie.poster_path}" class="poster-2" width="350">
 						<span class="beacon">
-						<div class="play-btn-1">
+						<div class="play-btn-1" onclick="playTrailer(${movie.movieId})">
 							<center><span>&#x1f3ac;</span></center>
 						</div>
 						</span>
@@ -354,7 +366,7 @@ function addContent(id){
 					<img src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}" class="poster-1">
 					<img src="http://image.tmdb.org/t/p/w500/${movie.poster_path}" class="poster-2" width="350">
 						<span class="beacon">
-						<div class="play-btn-1">
+						<div class="play-btn-1" onclick="playTrailer(${movie.movieId})">
 							<center><span>&#x1f3ac;</span></center>
 						</div>
 						</span>
@@ -381,7 +393,7 @@ function addContent(id){
 					<img src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}" class="poster-1">
 					<img src="http://image.tmdb.org/t/p/w500/${movie.poster_path}" class="poster-2" width="350">
 						<span class="beacon">
-						<div class="play-btn-1">
+						<div class="play-btn-1" onclick="playTrailer(${movie.movieId})">
 							<center><span>&#x1f3ac;</span></center>
 						</div>
 						</span>
@@ -408,7 +420,7 @@ function addContent(id){
 					<img src="http://image.tmdb.org/t/p/w500/${movie.backdrop_path}" class="poster-1">
 					<img src="http://image.tmdb.org/t/p/w500/${movie.poster_path}" class="poster-2" width="350">
 						<span class="beacon">
-						<div class="play-btn-1">
+						<div class="play-btn-1" onclick="playTrailer(${movie.movieId})">
 							<center><span>&#x1f3ac;</span></center>
 						</div>
 						</span>
@@ -418,8 +430,25 @@ function addContent(id){
 	}
 }
 </script>
+
 <script src="<c:url value="/resources/assets/js/core/jquery.min.js" />" type="text/javascript"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script src="<c:url value="/webjars/bootstrap/3.4.0/js/bootstrap.min.js" />"></script>
 <script src="<c:url value="/resources/assets/js/core/popper.min.js" />" type="text/javascript"></script>
+<script>
+function playTrailer(id){
+	console.log(id);
+	var obj = [];
+	var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+         if (this.readyState == 4 && this.status == 200) {
+        	 obj = JSON.parse(this.responseText);
+        	 window.location.assign('http://www.youtube.com/watch?v='+obj.results[0].key);
+         }
+    }
+	var url = "https://api.themoviedb.org/3/movie/"+299534+"/videos?api_key=e73130e52d6a080b1c0dd07fdaffb1bf&language=en-US";
+	xhttp.open("GET",url,true);
+    xhttp.send();
+}
+</script>
 </body>
 </html>

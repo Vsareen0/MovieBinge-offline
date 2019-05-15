@@ -1,6 +1,7 @@
 package com.comaniacs.controllers;
 
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.comaniacs.dao.impl.BookingDaoImpl;
 import com.comaniacs.dao.impl.MovieDaoImpl;
 import com.comaniacs.dao.impl.UserDaoImpl;
+import com.comaniacs.models.Booking;
 import com.comaniacs.models.Login;
 import com.comaniacs.models.User;
 
@@ -22,10 +25,10 @@ public class FormController {
 	public String processAdminLoginForm(@ModelAttribute("admin") Login user, HttpSession session, ModelMap model) {
 		if(user.getName().equals("Vinamra") && user.getPassword().equals("1234")) {
 			session.setAttribute("loggedInAdmin", user);
-			return "admin";
+			return "redirect:/admin/account";
 		}
 		model.addAttribute("error","Invalid Credentails !");
-		return "adminSignin";
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping(value="/processUserLogin",method=RequestMethod.POST)
@@ -42,14 +45,24 @@ public class FormController {
 			return "redirect:/";
 		}
 		model.addAttribute("error","Invalid Credentails !");
-		return "adminSignin";
+		return "redirect:/userSignin";
 	}
 	
 	@RequestMapping(value="/processSignup",method=RequestMethod.POST)
 	public String processSignup(@ModelAttribute("user") User user, ModelMap model) {
 		UserDaoImpl udi = new UserDaoImpl();
 		udi.addNewUser(user);
-		return "display";
+		return "redirect:/user/success";
+	}
+	
+	@RequestMapping(value="/booking",method=RequestMethod.POST)
+	public String booking(@ModelAttribute("booking") Booking booking, ModelMap model) {
+		BookingDaoImpl book = new BookingDaoImpl();
+		Random random = new Random();
+		String id = String.format("%04d", random.nextInt(10000));
+        booking.setBookingId(Integer.parseInt(id));
+		book.addNew(booking);
+		return "redirect:/booking/success";
 	}
 	
 }

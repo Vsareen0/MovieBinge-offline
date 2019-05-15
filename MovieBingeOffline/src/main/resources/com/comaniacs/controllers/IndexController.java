@@ -3,17 +3,24 @@ package com.comaniacs.controllers;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.comaniacs.dao.impl.BookingDaoImpl;
 import com.comaniacs.dao.impl.MovieDaoImpl;
 import com.comaniacs.dao.impl.ShowDaoImpl;
 import com.comaniacs.helpers.TestHelper;
 import com.comaniacs.models.Show;
 import com.comaniacs.models.Test;
+import com.comaniacs.models.User;
+import com.comaniacs.services.SeatingService;
 
 @Controller
 public class IndexController {
@@ -23,10 +30,22 @@ public class IndexController {
 		if(session.getAttribute("loggedInUser") != null) {
 			model.addAttribute("user",session.getAttribute("loggedInUser"));	
 			model.addAttribute("checkLogin",true);
+			model.addAttribute("userSuccess",true);
 		}
 		MovieDaoImpl mdi=new MovieDaoImpl();
 		List<?> popular_movies = mdi.showNowPlaying("Now Playing");
 		model.addAttribute("popular_movies",popular_movies);
+		return "index";
+	}
+	
+	
+	
+	@RequestMapping(value= {"/user/success","/user/signin"})
+	public String userSuccess(ModelMap model) {
+		MovieDaoImpl mdi=new MovieDaoImpl();
+		List<?> popular_movies = mdi.showNowPlaying("Now Playing");
+		model.addAttribute("popular_movies",popular_movies);
+		
 		return "index";
 	}
 	
@@ -51,7 +70,14 @@ public class IndexController {
 			String[] s = show_time.split(",");
 			Arrays.asList(s).stream().map(time -> time.toUpperCase());
 			model.addAttribute("show",s);
+			model.addAttribute("user_id",id);
 			
+			BookingDaoImpl bdi = new BookingDaoImpl();
+			List<?> seats = bdi.getBookedSeats(movieId);
+			SeatingService ss = new SeatingService();
+			List<String> allSeats = ss.getSeats(seats, seats.size());
+			model.addAttribute("size",seats.size());
+			model.addAttribute("seats",allSeats);
 			return "book";
 		}else {
 			MovieDaoImpl mdi=new MovieDaoImpl();
@@ -61,6 +87,58 @@ public class IndexController {
 			model.addAttribute("bookingError", true);
 			return "index";
 		}
+	}
+
+	@RequestMapping(value="/seatByDate",method=RequestMethod.GET)
+	@ResponseBody
+	public List<String> getSeatByDate(@RequestParam(value="movie_id",required=false) Integer movie_id, 
+			@RequestParam(value="date",required=false) String date,
+			@RequestParam(value="time",required=false) String time,
+			ModelMap model) {
+		BookingDaoImpl bdi = new BookingDaoImpl();
+		System.out.println(movie_id+"  "+date);
+		List<?> seats = bdi.getBookedSeats(movie_id,date,time);
+		SeatingService ss = new SeatingService();
+		List<String> allSeats = ss.getSeats(seats, seats.size());
+		model.addAttribute("seats_booked",allSeats);
+			
+		return allSeats;
+	}
+	
+//	@RequestMapping(value="/seatByDate",method=RequestMethod.GET,produces="application/json")
+//	public ResponseEntity<List<String>> getSeatByDate(@RequestParam(value="movie_id",required=false) Integer movie_id, @RequestParam(value="date",required=false) String date,ModelMap model) {
+//		ShowDaoImpl sdi = new ShowDaoImpl();
+//		System.out.println("Seats: "+movie_id+"  "+date);
+//		List<?> seats = sdi.getBookedSeats(movie_id,date);
+//		SeatingService ss = new SeatingService();
+//		List<String> allSeats = ss.getSeats(seats, seats.size());
+//		return ResponseEntity.ok().body(allSeats);
+//	}
+	
+	@RequestMapping(value="/booking/success",method=RequestMethod.GET)
+	public String bookingSuccess(HttpSession session, ModelMap model) {
+		if(session.getAttribute("loggedInUser")!=null) {
+			BookingDaoImpl bdi = new BookingDaoImpl();
+			List<?> seats = bdi.getBookedSeats(1318);
+			model.addAttribute("seats",seats);
+			model.addAttribute("user",session.getAttribute("loggedInUser"));
+			model.addAttribute("checkLogin",true);
+		}
+		return "bookingSuccessful";
+	}
+	
+	@RequestMapping(value= {"/booking/summary","/summary"},method=RequestMethod.GET)
+	public String bookingSummary(HttpSession session,ModelMap model) {
+		if(session.getAttribute("loggedInUser") != null) {
+			User user = (User) session.getAttribute("loggedInUser");
+			Integer userId = user.getUserId();
+			BookingDaoImpl bdi = new BookingDaoImpl();
+			List<?> allBookings = bdi.showAllBookings(userId);
+			model.addAttribute("allBookings",allBookings);
+			model.addAttribute("user",session.getAttribute("loggedInUser"));
+			model.addAttribute("checkLogin",true);
+		}
+		return "summary";
 	}
 	
 	@RequestMapping(value="/test")
@@ -72,7 +150,7 @@ public class IndexController {
 		return "test";
 	}
 	
-	@RequestMapping(value= {"/admin/account"},method=RequestMethod.POST)
+	@RequestMapping(value= {"/admin/account"},method=RequestMethod.GET)
 	public String admin(HttpSession session,ModelMap model) {
 		if(session.getAttribute("loggedInAdmin") == null) {
 			model.addAttribute("error","Please, login in to access the admin panel");
@@ -95,7 +173,7 @@ public class IndexController {
 	public String adminSignout(HttpSession session) {
 		session.removeAttribute("loggedInAdmin");
 		session.invalidate();
-		return "adminSignin";
+		return "redirect:/admin";
 	}
 	
 	@RequestMapping(value= {"/user/signin"},method=RequestMethod.GET)

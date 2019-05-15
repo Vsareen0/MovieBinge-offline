@@ -7,7 +7,7 @@
 <class name="com.comaniacs.models.User" table="USER">  
      <id name="UserId" type="int">
      	<column name="USER_ID" length="100" />
-     	<generator class="assigned" />
+     	<generator class="increment" />
      </id>
      <property name="Username" type="string">
      	<column name="USERNAME" length="40"></column>

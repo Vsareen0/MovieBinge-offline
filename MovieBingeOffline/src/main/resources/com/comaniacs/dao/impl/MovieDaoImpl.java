@@ -118,11 +118,10 @@ public class MovieDaoImpl implements MovieDao{
 			String movieHQL = "SELECT * FROM MOVIE where category='"+category+"';";
 			Query query = session.createSQLQuery(movieHQL).addEntity(Movie.class);
 			results = query.list();
+			session.close();
 		}catch(Exception e) {
 			System.out.println(e.getMessage());
 			session.getTransaction().rollback();
-		}
-		finally{
 			session.close();
 		}
 		return results;

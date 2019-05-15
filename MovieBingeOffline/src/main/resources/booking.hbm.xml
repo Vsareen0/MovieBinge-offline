@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC  
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+  
+<hibernate-mapping> 
+<class name="com.comaniacs.models.Booking" table="BOOKINGS">
+	<id name="bookingId" type="int">
+     	<column name="BOOKING_ID" length="4" />
+     	<generator class="assigned"/>
+     </id>
+     <property name="theatre_room_no" type="string">
+     	<column name="THEATRE_ROOM_NO" length="3"></column>
+     </property>
+     <property name="booking_day" type="string">
+     	<column name="BOOKING_DAY" length="150"></column>
+     </property>
+     <property name="booking_time" type="string">
+     	<column name="BOOKING_TIME" length="150"></column>
+     </property>
+     <property name="user_id" type="string">
+     	<column name="USER_ID" length="100"></column>
+     </property>
+     <property name="movie_id" type="string">
+     	<column name="MOVIE_ID" length="4"></column>
+     </property>
+     <property name="no_of_seats" type="int">
+     	<column name="NO_OF_SEATS" length="150"></column>
+     </property>
+     <property name="seat_no" type="string">
+     	<column name="SEAT_NO" length="650"></column>
+     </property>
+     <property name="cost" type="double">
+     	<column name="TOTAL_COST" length="100"></column>
+     </property>
+     
+</class> 
+</hibernate-mapping>
