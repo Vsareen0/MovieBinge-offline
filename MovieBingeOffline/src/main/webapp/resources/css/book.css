@@ -42,17 +42,21 @@
 		border-radius: 3px;
 		box-shadow: 0px -2px 3px 2px rgba(0, 0, 0, 0.5);
 	}
-	.time{	
+	.time{
+		padding-top: 20px;
+		padding-left: 20px;
+	}
+	.dates, .time{	
 		color: #567580;
 		vertical-align: bottom;
 		display: inline-block;
 		font-weight: 700;
-		padding-top: 20px;
-		padding-left: 20px;
 		cursor: pointer;
 		font-family: 'PT Sans', sans-serif;
 	}
-
+	.dates{
+		padding: 10px;
+	}
 	table{
 		margin: auto;
 		left: 0;

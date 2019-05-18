@@ -72,10 +72,15 @@
 	</div>
 	<div class="col-sm-4">
 		<h5>DATE</h5>
-		<div class="form-group bmd-form-group">
-		  <label class="bmd-label-floating">Select Date</label>
-		  <input name="booking_day" type="text" class="form-control datepicker" value="00/00/2019" id="datepicker" onblur="initSeats();">
-		</div>
+		  <!-- <input name="booking_day" type="text" class="form-control datepicker" value="00/00/2019" id="datepicker" onblur="initSeats();"> -->
+		  <div class="dates"></div>
+		  <div class="dates"></div>
+		  <div class="dates"></div>	
+		  <div class="dates"></div>
+		  <div class="dates"></div>
+		  <div class="dates"></div>
+		  <div class="dates"></div>	
+		<span class="show_date"></span>
 	</div>
 	<div class="col-sm-4">
 		<h5>AVAILABLE TIMES</h5>
@@ -258,6 +263,25 @@
 
 <script>
 $(function() {
+	getDayName();
+	
+	$('.dates').click(function() { 
+    	var list = document.getElementsByClassName("dates");
+    	for(var i=0;i<list.length;i++){
+    		list[i].style.color = "#567580";	
+    	}
+    	document.getElementById(this.id).style.color = "#000";
+    	$(".show_date").html(
+    			$('<input>', {
+    		        type: 'hidden',
+    		        name: 'booking_day',
+    		        id: 'selected_date',
+    		        val: document.getElementById(this.id).id
+    		    })
+    	);
+    	initSeats();	
+    });
+	
     $('.time').click(function() { 
     	var list = document.getElementsByClassName("time");
     	for(var i=0;i<list.length;i++){
@@ -358,7 +382,7 @@ function getSelectedSeat(data){
 function initSeats(){
 	$(".seats + .seats-label").removeClass('selected');
 	$( ".seats" ).prop( "disabled", false );
-	var date_value = decodeURIComponent($("#datepicker").val());
+	var date_value = decodeURIComponent($("#selected_date").val());
 	$.ajax({
 		url:'/MovieBingeOffline/seatByDate',
 		type:'GET',
@@ -369,6 +393,46 @@ function initSeats(){
 		}
 	});	
 }
+
+function getDayName(){
+	var d = new Date();
+	  var weekday = new Array(7);
+	  weekday[0] = "Sun";
+	  weekday[1] = "Mon";
+	  weekday[2] = "Tue";
+	  weekday[3] = "Wed";
+	  weekday[4] = "Thu";
+	  weekday[5] = "Fri";
+	  weekday[6] = "Sat";
+
+	  var dayCount = d.getDay();
+	  
+	  var dates = [];
+	  for(var i=0;i<8;i++){
+		  if(dayCount>6){
+			  dayCount = 0;
+		  }			  
+		  dates[i] = weekday[dayCount];
+		  dayCount += 1;
+	  }
+	  
+	  var list = document.getElementsByClassName("dates");
+	  for(var i=0;i<list.length;i++){
+		var d = new Date();
+		var date = d.getDate();
+		list[i].innerHTML = dates[i]+'<br>'+(date+i);
+		
+		var dd = String(date+i).padStart(2, '0');
+		var mm = String(d.getMonth()+1).padStart(2, '0'); //January is 0!
+		var yyyy = d.getFullYear();
+
+		today = mm + '/' + dd + '/' + yyyy;
+	    
+		list[i].id = today;
+	  }
+	  
+}
+
 </script>
 </c:if>
 

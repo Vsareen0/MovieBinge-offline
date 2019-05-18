@@ -26,6 +26,14 @@
 		background-color: #2fe064;
 		border-radius: 5px; 
 	}
+	.warning{
+		position: fixed;
+		padding: 10px;
+		bottom: 10px;
+		color: white;
+		background-color: #ec971f;
+		border-radius: 5px; 
+	}
 	.closebtn {
 	  margin-left: 15px;
 	  color: white;
@@ -167,7 +175,8 @@
 							<p>${movie.vote_average}</p>
 							<p>${movie.release_date}</p>
 							<a href="#">See Details</a>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}"
+							 style="color: #ffffff;display: block">Book Now</a>
 						</center> 
 					</div>
 					<p>${movie.title}</p>	
@@ -191,7 +200,7 @@
 				<p>Hellboy comes to England, where he must defeat Nimue, Merlin's consort and the Blood Queen. But their battle will bring about the end of the world, a fate he desperately tries to turn away.</p>
 				 <br>
 				 <span>
-					 <button class="btn-grad">Book Now</button>
+					 <a class="btn-notify-grad" href="#" style="display: inline-block">Notify Me</a>
 					 <a href="#">See Details</a>
 				 </span>
 			</div>
@@ -209,7 +218,7 @@
 							<i class="fa fa-star" aria-hidden="true" style="color: #FFD15E"></i>
 							<p>5.2</p>
 							<p>Wed Apr 10 00:00:00 IST 2019</p>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-notify-grad" href="#" style="color: #ffffff">Notify Me</a>
 						</center> 
 					</div>
 					<p>Hellboy</p>	
@@ -221,7 +230,7 @@
 							<i class="fa fa-star" aria-hidden="true" style="color: #FFD15E"></i>
 							<p>6.5</p>
 							<p>Thu Feb 14 00:00:00 IST 2019</p>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-notify-grad" href="#" style="color: #ffffff">Notify Me</a>
 						</center> 
 					</div>
 					<p>Fighting with My Family</p>	
@@ -233,7 +242,7 @@
 							<i class="fa fa-star" aria-hidden="true" style="color: #FFD15E"></i>
 							<p>5.8</p>
 							<p>Fri Feb 08 00:00:00 IST 2019</p>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-notify-grad" href="#" style="color: #ffffff">Notify Me</a>
 						</center> 
 					</div>
 					<p>What Men Want</p>	
@@ -245,7 +254,7 @@
 							<i class="fa fa-star" aria-hidden="true" style="color: #FFD15E"></i>
 							<p>6.9</p>
 							<p>Fri May 03 00:00:00 IST 2019</p>
-							<button class="btn-grad">Book Now</button>
+							<a class="btn-notify-grad" href="#" style="color: #ffffff">Notify Me</a>
 						</center> 
 					</div>
 					<p>POKÉMON Detective Pikachu</p>	
@@ -303,6 +312,12 @@
 	<div class="success">
 	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
 	    <strong>BINGO !</strong> Go ahead & book your tickets.
+	</div>
+</c:if>
+<c:if test="${noShows}">
+	<div class="warning">
+	  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+	    <strong>Sorry !</strong> No shows found for this movie.
 	</div>
 </c:if>
 <script>

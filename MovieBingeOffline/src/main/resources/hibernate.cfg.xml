@@ -10,15 +10,13 @@
       
       <!-- Assume test is the database name -->
       
-      <property name = "hibernate.connection.url">jdbc:h2:C:/h2-databases/movieBingeOffline;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO</property>
+      <property name = "hibernate.connection.url">jdbc:h2:C:/h2-databases/movieBingeOffline;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO;</property>
       
       <property name = "hibernate.connection.username">movieBinge</property>
       
       <property name = "hibernate.connection.password">movieBinge</property>
       
       <property name="hibernate.current_session_context_class">thread</property>
-      
-      <mapping resource="test.hbm.xml" />
       
       <mapping resource="movie.hbm.xml"/>
       

@@ -87,7 +87,7 @@
 	.movie-box-2 span, .most-popular span{
 		margin: 50px;
 	} 
-	.btn-grad {
+	.btn-grad, .btn-notify-grad{
 		background-image: linear-gradient(to right, #10D0F1 0%, #0ECAEF 51%, #07A6E0 100%);
 		cursor: pointer;
 		border: 0;
@@ -100,7 +100,12 @@
 		padding: 15px 25px;
 		margin-right: 25px;
 	}
-	.btn-grad:hover {
+	.btn-notify-grad{
+		display: block;
+		color: #ffffff;
+		background-image: linear-gradient(to right, #EC971F 0%, #EC571D 51%, #BC571D 100%);
+	}
+	.btn-grad:hover, .btn-notify-grad:hover {
 		text-decoration: none;
 		color: #ffffff;
 	}

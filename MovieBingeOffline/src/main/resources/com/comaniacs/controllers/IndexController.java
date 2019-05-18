@@ -3,9 +3,6 @@ package com.comaniacs.controllers;
 import java.util.Arrays;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,12 +10,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.comaniacs.configurations.MailSenderBean;
 import com.comaniacs.dao.impl.BookingDaoImpl;
 import com.comaniacs.dao.impl.MovieDaoImpl;
 import com.comaniacs.dao.impl.ShowDaoImpl;
-import com.comaniacs.helpers.TestHelper;
 import com.comaniacs.models.Show;
-import com.comaniacs.models.Test;
 import com.comaniacs.models.User;
 import com.comaniacs.services.SeatingService;
 
@@ -35,9 +31,14 @@ public class IndexController {
 		MovieDaoImpl mdi=new MovieDaoImpl();
 		List<?> popular_movies = mdi.showNowPlaying("Now Playing");
 		model.addAttribute("popular_movies",popular_movies);
+		try {
+			MailSenderBean msi = new MailSenderBean();
+			msi.sendEmail("vsareen24@gmail.com", "vsareen0@gmail.com", "Testing", "This is a demo mail");
+		}catch(Exception e) {
+			System.out.println("Sending mail failed : "+e.getMessage());
+		}
 		return "index";
 	}
-	
 	
 	
 	@RequestMapping(value= {"/user/success","/user/signin"})
@@ -65,25 +66,32 @@ public class IndexController {
 			
 			ShowDaoImpl sdi = new ShowDaoImpl();
 			List<?> showTime = sdi.getShowTimmings(movieId);
-			Show show = (Show) showTime.get(0);
-			String show_time = show.getSetTime();
-			String[] s = show_time.split(",");
-			Arrays.asList(s).stream().map(time -> time.toUpperCase());
-			model.addAttribute("show",s);
-			model.addAttribute("user_id",id);
-			
-			BookingDaoImpl bdi = new BookingDaoImpl();
-			List<?> seats = bdi.getBookedSeats(movieId);
-			SeatingService ss = new SeatingService();
-			List<String> allSeats = ss.getSeats(seats, seats.size());
-			model.addAttribute("size",seats.size());
-			model.addAttribute("seats",allSeats);
-			return "book";
+			if(showTime.size() > 0 ) {
+				Show show = (Show) showTime.get(0);
+				String show_time = show.getSetTime();
+				String[] s = show_time.split(",");
+				Arrays.asList(s).stream().map(time -> time.toUpperCase());
+				model.addAttribute("show",s);
+				model.addAttribute("user_id",id);
+				
+				BookingDaoImpl bdi = new BookingDaoImpl();
+				List<?> seats = bdi.getBookedSeats(movieId);
+				SeatingService ss = new SeatingService();
+				List<String> allSeats = ss.getSeats(seats, seats.size());
+				model.addAttribute("size",seats.size());
+				model.addAttribute("seats",allSeats);
+
+				return "book";
+			}else {
+				List<?> popular_movies2 = mdi.showNowPlaying("Now Playing");
+				model.addAttribute("popular_movies",popular_movies2);
+				model.addAttribute("noShows",true);
+				return "index";
+			}
 		}else {
 			MovieDaoImpl mdi=new MovieDaoImpl();
 			List<?> popular_movies = mdi.showNowPlaying("Now Playing");
 			model.addAttribute("popular_movies",popular_movies);
-			
 			model.addAttribute("bookingError", true);
 			return "index";
 		}
@@ -141,14 +149,6 @@ public class IndexController {
 		return "summary";
 	}
 	
-	@RequestMapping(value="/test")
-	public String test(ModelMap model) {
-		TestHelper th = new TestHelper();
-		List<Test> test= th.getName();
-		System.out.println(test.size());
-		model.addAttribute("v",test);
-		return "test";
-	}
 	
 	@RequestMapping(value= {"/admin/account"},method=RequestMethod.GET)
 	public String admin(HttpSession session,ModelMap model) {
