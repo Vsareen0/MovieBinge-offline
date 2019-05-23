@@ -149,6 +149,19 @@ public class IndexController {
 		return "summary";
 	}
 	
+	@RequestMapping(value= {"/bookingHistory"},method=RequestMethod.GET)
+	public String bookingHistory(HttpSession session,ModelMap model) {
+		if(session.getAttribute("loggedInUser") != null) {
+			User user = (User) session.getAttribute("loggedInUser");
+			Integer userId = user.getUserId();
+			BookingDaoImpl bdi = new BookingDaoImpl();
+			List<?> allBookings = bdi.showAllBookings(userId);
+			model.addAttribute("allBookings",allBookings);
+			model.addAttribute("user",session.getAttribute("loggedInUser"));
+			model.addAttribute("checkLogin",true);
+		}
+		return "bookingHistory";
+	}
 	
 	@RequestMapping(value= {"/admin/account"},method=RequestMethod.GET)
 	public String admin(HttpSession session,ModelMap model) {
@@ -193,12 +206,25 @@ public class IndexController {
 	}
 	
 	@RequestMapping(value="/dashboard")
-	public String dashboard() {
+	public String dashboard(ModelMap model) {
+		MovieDaoImpl mdi=new MovieDaoImpl();
+		List<?> popular_movies = mdi.showNowPlaying("Now Playing");
+		
+		BookingDaoImpl bdi = new BookingDaoImpl();
+		List<?> allBookings = bdi.getPurchases();
+		
+		
+		model.addAttribute("sizeOfPlayingMovies",popular_movies.size());
+		model.addAttribute("sizeOfBookedTickets",allBookings.size());
+		model.addAttribute("sizeOfCancelledTickets",allBookings.size());
 		return "dashboard";
 	}
 
 	@RequestMapping(value="/purchases")
-	public String purchases() {
+	public String purchases(ModelMap model) {
+		BookingDaoImpl bdi = new BookingDaoImpl();
+		List<?> allBookings = bdi.getPurchases();
+		model.addAttribute("allBookings", allBookings);
 		return "purchases";
 	}
 
@@ -214,4 +240,5 @@ public class IndexController {
 		model.addAttribute("movies",popular_movies);
 		return "showTimmings";
 	}
+	
 }

@@ -95,7 +95,14 @@
 		    <c:choose>
 		    	<c:when test="${checkLogin}">
 	      		<ul class="nav navbar-nav navbar-right">
-		        	<li class="nav-item"><a href="#" class="cred"><i class="fa fa-user nav-icons" aria-hidden="true"></i>&nbsp;Welcome, ${user.username}</a></li>
+		        	<li class="nav-item dropdown">
+			        	<a href="#" class="dropdown-toggle cred" data-toggle="dropdown">
+			        		<i class="fa fa-user nav-icons" aria-hidden="true"></i>&nbsp;Welcome, ${user.username}
+			        	</a>
+			        	<ul class="dropdown-menu">
+					       <li><a class="dropdown-item" href="/MovieBingeOffline/summary">Summary</a></li>
+					    </ul>
+		        	</li>
 		        	<li class="nav-item"><a onclick="$.removeCookie('JSESSIONID', { path: '/' });" href="/MovieBingeOffline/user/logout" class="cred"><i class="fa fa-sign-out nav-icons" aria-hidden="true"></i>&nbsp;Logout</a></li>    
 		      	</ul>	
 	      		</c:when>      		

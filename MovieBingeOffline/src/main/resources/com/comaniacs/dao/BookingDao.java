@@ -12,6 +12,14 @@ public interface BookingDao {
 	
 	public List<?> getBookedSeats(int movie_id);
 
+	public List<?> getBookedSeatsById(int booking_id);
+
 	List<?> getBookedSeats(int movieId, String date, String time);
+
+	List<?> getPurchases();
+	
+	List<?> getCancelledSeatsById(int user_id);
+	
+	public void cancelTicket(int bookingId);
 	
 }

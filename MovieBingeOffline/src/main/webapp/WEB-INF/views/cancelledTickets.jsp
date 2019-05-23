@@ -1,9 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix = "form"%>
-<%@ page import="java.text.SimpleDateFormat" %>
-<%@page import="java.util.Date" %>
-
 <!doctype html>
 <html>
 <head>
@@ -36,9 +33,6 @@
  	</style>
 </head>
 <body>
-<%SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-String date = sdf.format(new Date());
-pageContext.setAttribute("date",date);%>
 <!-- First container for movies -->
 <div class="container-fluid bg-grad">
 	
@@ -105,7 +99,7 @@ pageContext.setAttribute("date",date);%>
 	</div>
 </nav>
 
-<h3 class="text-center">Tickets Booked to Watch</h3>
+<h3 class="text-center">Tickets Cancelled</h3>
 
 <table class="table table-hover">
     <thead>
@@ -121,19 +115,16 @@ pageContext.setAttribute("date",date);%>
       </tr>
     </thead>
     <tbody>
-      <c:forEach items="${allBookings}" var="booking">
-      <c:if test="${booking.booking_day >= date}">
+      <c:forEach items="${allCancelledBookings}" var="cancelBooking">
       <tr>
-        <td>${booking.bookingId}</td>
-        <td>${booking.booking_day}</td>
-        <td>${booking.booking_time}</td>
-        <td>${booking.no_of_seats}</td>
-        <td>${booking.cost}</td>
-        <td>${booking.theatre_room_no }</td>
-        <td>${booking.seat_no}</td>
-        <td><a href="/MovieBingeOffline/cancelTickets?bookingId=${booking.bookingId}" class="btn btn-outline-danger">Cancel Tickets</a></td>
+        <td>${cancelBooking.bookingId}</td>
+        <td>${cancelBooking.booking_day}</td>
+        <td>${cancelBooking.booking_time}</td>
+        <td>${cancelBooking.no_of_seats}</td>
+        <td>${cancelBooking.cost}</td>
+        <td>${cancelBooking.theatre_room_no }</td>
+        <td>${cancelBooking.seat_no}</td>
       </tr>
-      </c:if>
       </c:forEach>
     </tbody>
   </table>

@@ -105,7 +105,7 @@ pageContext.setAttribute("date",date);%>
 	</div>
 </nav>
 
-<h3 class="text-center">Tickets Booked to Watch</h3>
+<h3 class="text-center">Booking History</h3>
 
 <table class="table table-hover">
     <thead>
@@ -117,12 +117,11 @@ pageContext.setAttribute("date",date);%>
         <th>Total Cost</th>
         <th>Theatre Room No</th>
         <th>Seat No</th>
-        <th></th>
       </tr>
     </thead>
     <tbody>
       <c:forEach items="${allBookings}" var="booking">
-      <c:if test="${booking.booking_day >= date}">
+      <c:if test="${booking.booking_day <= date}">
       <tr>
         <td>${booking.bookingId}</td>
         <td>${booking.booking_day}</td>
@@ -131,7 +130,6 @@ pageContext.setAttribute("date",date);%>
         <td>${booking.cost}</td>
         <td>${booking.theatre_room_no }</td>
         <td>${booking.seat_no}</td>
-        <td><a href="/MovieBingeOffline/cancelTickets?bookingId=${booking.bookingId}" class="btn btn-outline-danger">Cancel Tickets</a></td>
       </tr>
       </c:if>
       </c:forEach>
