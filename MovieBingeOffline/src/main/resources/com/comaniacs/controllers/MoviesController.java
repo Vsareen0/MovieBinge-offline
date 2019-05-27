@@ -71,7 +71,9 @@ public class MoviesController {
 		 Random random = new Random();
 	     String id = String.format("%04d", random.nextInt(10000));
          show.setShowId(Integer.parseInt(id));
-		 sdi.addShowTimmings(show);
+		 
+         System.out.println("Shows: "+show.getMovieId()+" "+show.getTheatre_room_no()+" "+show.getSetTime()+" "+show.getShowId());
+         sdi.addShowTimmings(show);
 				
 		// Add to model the movie Object
 		model.addAttribute("show",show);

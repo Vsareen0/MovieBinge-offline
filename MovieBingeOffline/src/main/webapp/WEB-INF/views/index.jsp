@@ -352,7 +352,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
+							<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -379,7 +379,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
+							<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -406,7 +406,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
+							<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						
@@ -433,7 +433,7 @@ function addContent(id){
 						<p>${movie.overview}</p>
 						<br>
 						<span>
-							<a class="btn-grad" href="/MovieBingeOffline/${user.userId}/book?movieId=${movie.movieId}">Book Now</a>
+							<a class="btn-grad" href="/MovieBingeOffline/book?movieId=${movie.movieId}&userId=${user.userId}">Book Now</a>
 							<a href="/MovieBingeOffline/seeDetails/${movie.movieId}">See Details</a>
 						</span>
 						

@@ -97,10 +97,25 @@
 <div class="container-fluid seats-purchase">
 	<div class="row">
 		<div class="col-sm-8 seats-left">
+		<input type="hidden" value="AX1" name="theatre_room_no">	
 		<br>
-			<input type="hidden" value="AX1" name="theatre_room_no">
-			<h5 class="text-center">PLEASE SELECT YOUR SEATS</h5>
-			<table border="0">
+			<div class="" style="width: 150px;height: 200px;display: inline-block;vertical-align:top">
+				<br>
+    			<br>
+    			<input id="reserved" class="seats" type="checkbox" disabled>
+    			<label class="seats-label selected">Reserved</label>
+    			<br>
+    			<br>
+    			<input id="selected" class="seats" type="checkbox" disabled>
+    			<label class="seats-label">Selected</label>
+    			<br>
+    			<br>
+    			<input id="available" class="seats" type="checkbox" disabled>
+    			<label class="seats-label">Available</label>
+			</div>
+			<div class="" style="display: inline-block;vertical-align:top">
+			<table border="0;" style="display: inline-block;vertical-align: top">
+				<thead><h5 class="text-center">PLEASE SELECT YOUR SEATS</h5></thead>
 				<tbody>
 					<tr>
 						<td><p class="seats_row_label">J</p></td>
@@ -224,6 +239,7 @@
 					</tr>
 				</tbody>
 			</table>
+			</div>
 		</div>
 		<div class="col-sm-4 seats-right">
 		<br>
@@ -262,7 +278,50 @@
 </script>
 
 <script>
+function getDayName(){
+	var d = new Date();
+	  var weekday = new Array(7);
+	  weekday[0] = "Sun";
+	  weekday[1] = "Mon";
+	  weekday[2] = "Tue";
+	  weekday[3] = "Wed";
+	  weekday[4] = "Thu";
+	  weekday[5] = "Fri";
+	  weekday[6] = "Sat";
+
+	  var dayCount = d.getDay();
+	  
+	  var dates = [];
+	  for(var i=0;i<8;i++){
+		  if(dayCount>6){
+			  dayCount = 0;
+		  }			  
+		  dates[i] = weekday[dayCount];
+		  dayCount += 1;
+	  }
+	  
+	  var list = document.getElementsByClassName("dates");
+	  for(var i=0;i<list.length;i++){
+		var d = new Date();
+		var date = d.getDate();
+		list[i].innerHTML = dates[i]+'<br>'+(date+i);
+		
+		var dd = String(date+i).padStart(2, '0');
+		var mm = String(d.getMonth()+1).padStart(2, '0'); //January is 0!
+		var yyyy = d.getFullYear();
+
+		today = mm + '/' + dd + '/' + yyyy;
+	    
+		list[i].id = today;
+	  }
+	  
+}
+
+</script>
+
+<script>
 $(function() {
+	
 	getDayName();
 	
 	$('.dates').click(function() { 
@@ -382,6 +441,10 @@ function getSelectedSeat(data){
 function initSeats(){
 	$(".seats + .seats-label").removeClass('selected');
 	$( ".seats" ).prop( "disabled", false );
+	
+	$("#reserved + .seats-label").addClass('selected');
+	$("#reserved,#selected,#available").attr('disabled', true);
+	
 	var date_value = decodeURIComponent($("#selected_date").val());
 	$.ajax({
 		url:'/MovieBingeOffline/seatByDate',
@@ -394,44 +457,6 @@ function initSeats(){
 	});	
 }
 
-function getDayName(){
-	var d = new Date();
-	  var weekday = new Array(7);
-	  weekday[0] = "Sun";
-	  weekday[1] = "Mon";
-	  weekday[2] = "Tue";
-	  weekday[3] = "Wed";
-	  weekday[4] = "Thu";
-	  weekday[5] = "Fri";
-	  weekday[6] = "Sat";
-
-	  var dayCount = d.getDay();
-	  
-	  var dates = [];
-	  for(var i=0;i<8;i++){
-		  if(dayCount>6){
-			  dayCount = 0;
-		  }			  
-		  dates[i] = weekday[dayCount];
-		  dayCount += 1;
-	  }
-	  
-	  var list = document.getElementsByClassName("dates");
-	  for(var i=0;i<list.length;i++){
-		var d = new Date();
-		var date = d.getDate();
-		list[i].innerHTML = dates[i]+'<br>'+(date+i);
-		
-		var dd = String(date+i).padStart(2, '0');
-		var mm = String(d.getMonth()+1).padStart(2, '0'); //January is 0!
-		var yyyy = d.getFullYear();
-
-		today = mm + '/' + dd + '/' + yyyy;
-	    
-		list[i].id = today;
-	  }
-	  
-}
 
 </script>
 </c:if>

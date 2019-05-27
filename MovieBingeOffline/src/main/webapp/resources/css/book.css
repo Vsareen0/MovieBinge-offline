@@ -89,7 +89,7 @@
 	    text-align: center;
 	}
 	
-	.seats:checked + .seats-label:before {
+	.seats:checked + .seats-label:before , #selected + .seats-label:before{
 	    background-image: linear-gradient(to right, #10D0F1 0%, #0ECAEF 51%, #07A6E0 100%);
 	}
 	.seats + .seats-label.selected:before {
